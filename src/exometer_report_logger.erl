@@ -414,7 +414,7 @@ handle_data_(Data, #tty{prefix = Pfx} = Out) ->
     io:fwrite(iolist_to_binary([Pfx, Data, $\n])),
     {Data, Out};
 handle_data_(Data, #ets{tab = T} = Out) ->
-    ets:insert(T, {erlang:now(), Data}),
+    ets:insert(T, {erlang:timestamp(), Data}),
     {Data, Out};
 handle_data_(Data, #int{process = P} = Out) ->
     try P ! {?MODULE, self(), Data} catch _:_ -> error end,
